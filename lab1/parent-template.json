@@ -1,6 +1,15 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "UK South",
+      "metadata": {
+        "description": "Location for all resources"
+      }
+    }
+  },
   "resources": [
     {
       "type": "Microsoft.Resources/deployments",
@@ -31,7 +40,7 @@
           ]
         },
         "parameters": {
-          "location": { "value": "UK South" }
+          "location": { "value": "[parameters('location')]" }
         }
       }
     },
@@ -78,7 +87,7 @@
           ]
         },
         "parameters": {
-          "location": { "value": "UK South" }
+          "location": { "value": "[parameters('location')]" }
         }
       }
     }
