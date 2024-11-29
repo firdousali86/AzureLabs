@@ -1,0 +1,5 @@
+az group create --name rg-aztraining-cat-uk --location "UK South"
+
+az deployment group create \
+  --resource-group rg-aztraining-cat-uk \
+  --template-file ./parent-template.json
