@@ -8,6 +8,18 @@
       "metadata": {
         "description": "Location for all resources"
       }
+    },
+    "adminUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Admin username for the VM"
+      }
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Admin password for the VM"
+      }
     }
   },
   "resources": [
@@ -17,27 +29,8 @@
       "name": "StorageAccountDeployment",
       "properties": {
         "mode": "Incremental",
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "parameters": {
-            "location": {
-              "type": "string"
-            }
-          },
-          "resources": [
-            {
-              "type": "Microsoft.Storage/storageAccounts",
-              "apiVersion": "2021-04-01",
-              "name": "[concat('storacct', uniqueString(resourceGroup().id))]",
-              "location": "[parameters('location')]",
-              "sku": {
-                "name": "Standard_LRS"
-              },
-              "kind": "StorageV2",
-              "properties": {}
-            }
-          ]
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/firdousali86/AzureLabs/main/lab1/storage-template.json"
         },
         "parameters": {
           "location": { "value": "[parameters('location')]" }
@@ -50,44 +43,27 @@
       "name": "VirtualNetworkDeployment",
       "properties": {
         "mode": "Incremental",
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "parameters": {
-            "location": {
-              "type": "string"
-            }
-          },
-          "resources": [
-            {
-              "type": "Microsoft.Network/virtualNetworks",
-              "apiVersion": "2021-05-01",
-              "name": "vnet-training",
-              "location": "[parameters('location')]",
-              "properties": {
-                "addressSpace": {
-                  "addressPrefixes": ["10.0.0.0/16"]
-                },
-                "subnets": [
-                  {
-                    "name": "subnet1",
-                    "properties": {
-                      "addressPrefix": "10.0.1.0/24"
-                    }
-                  },
-                  {
-                    "name": "subnet2",
-                    "properties": {
-                      "addressPrefix": "10.0.2.0/24"
-                    }
-                  }
-                ]
-              }
-            }
-          ]
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/firdousali86/AzureLabs/main/lab1/vnet-template.json"
         },
         "parameters": {
           "location": { "value": "[parameters('location')]" }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2021-04-01",
+      "name": "VMDeployment",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "https://raw.githubusercontent.com/firdousali86/AzureLabs/main/lab1/vm-template.json"
+        },
+        "parameters": {
+          "location": { "value": "[parameters('location')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" }
         }
       }
     }
