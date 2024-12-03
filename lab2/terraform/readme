@@ -3,3 +3,12 @@ brew install hashicorp/tap/terraform
 
 
 terraform init
+terraform validate
+
+terraform plan \
+  -var="admin_username=azureuser" \
+  -var="admin_password=MySecurePassword123!"
+
+terraform apply \
+  -var="admin_username=azureuser" \
+  -var="admin_password=MySecurePassword123!"

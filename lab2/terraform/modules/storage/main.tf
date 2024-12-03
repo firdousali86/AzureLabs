@@ -9,4 +9,5 @@ resource "azurerm_storage_account" "storage" {
 resource "random_string" "unique_id" {
   length  = 6
   special = false
+  upper   = false
 }
