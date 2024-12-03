@@ -15,7 +15,7 @@ resource "azurerm_virtual_machine" "vm" {
   resource_group_name   = var.resource_group_name
   location              = var.location
   network_interface_ids = [azurerm_network_interface.nic.id]
-  vm_size               = "Standard_DS1_v2"
+  vm_size               = var.vm_size
 
   storage_os_disk {
     name              = "myOSDisk"
@@ -30,12 +30,14 @@ resource "azurerm_virtual_machine" "vm" {
     admin_password = var.admin_password
   }
 
-  os_profile_windows_config {}
+  os_profile_windows_config {
+    provision_vm_agent = var.os_type == "Windows"
+  }
 
   storage_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2019-Datacenter"
+    publisher = var.os_type == "Windows" ? "MicrosoftWindowsServer" : "Canonical"
+    offer     = var.os_type == "Windows" ? "WindowsServer" : "UbuntuServer"
+    sku       = var.os_version
     version   = "latest"
   }
 }

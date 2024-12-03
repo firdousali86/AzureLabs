@@ -39,4 +39,7 @@ module "virtual_machine" {
   admin_password      = var.admin_password
   vnet_name           = module.virtual_network.vnet_name
   subnet_id           = module.virtual_network.subnet_ids[0]
+  vm_size             = var.vm_size
+  os_type             = var.os_type
+  os_version          = var.os_version
 }
